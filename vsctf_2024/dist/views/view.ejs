@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Notes
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+
+<body>
+    <header class="container">
+        <h1>
+            Notes
+        </h1>
+        <ul id="list">
+        </ul>
+    </header>
+    <main class="container">
+        <a href="/report?url=https://flarenotes.vsc.tf/view?user=<%= user %>">report</a>
+    </main>
+    <script>
+        async function main() {
+            const params = new URLSearchParams(window.location.search);
+
+            const list = document.getElementById("list");
+
+            const url = new URL(`${window.location.origin}/raw/${params.get("user")}`);
+
+            if (url.hostname === window.location.hostname && !url.pathname.includes("view")) {
+                const res = await fetch(`${window.location.origin}/raw/${params.get("user")}`, {
+                    headers: new Headers(JSON.parse(params.get("headers") || "{}"))
+                });
+
+                if (!res.ok) return;
+
+                const data = (await res.text()).split("\n");
+
+                data.forEach((note) => {
+                    const li = document.createElement("li");
+                    li.innerHTML = new DOMParser().parseFromString(note, "text/html").documentElement.textContent;
+                    list.appendChild(li);
+                });
+            } else {
+                alert("no hacking smh!!11")
+            }
+        }
+
+        main();
+    </script>
+</body>
+
+</html>
