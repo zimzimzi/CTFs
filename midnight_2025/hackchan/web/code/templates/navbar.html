@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/"><img src="/static/hackchan.jpg" alt="Hackchan Logo" width="30" height="30">Hackchan</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if current_user.is_authenticated %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/?action=products">Products</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/?action=transactions-list">Transactions</a>
+                </li>
+                {% if current_user.is_manager %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/?action=order-problems">Problems</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/?action=faq">FAQ</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" >Your balance: {{ current_user.balance }} LP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/?action=cart">Cart ({{ session.get('cart', [])|length }})</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/?action=logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message[0] }} alert-dismissible fade show position-fixed"
+                 style="top: 70px; right: 15px;">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                {{ message[1] }}
+
+            </div>
+        {% endfor %}
+        <script>
+            setTimeout(function () {
+                document.querySelector('.alert.alert-success').style.display = 'none';
+            }, 5000);
+        </script>
+    {% endif %}
+{% endwith %}

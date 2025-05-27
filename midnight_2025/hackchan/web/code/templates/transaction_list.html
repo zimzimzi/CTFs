@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transactions List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="container mt-5">
+    <h1>Transfer loyalty points</h1>
+    <form action="/?action=create-transaction" method="post">
+        <div class="form-group">
+            <label for="recipient">Recipient:</label>
+            <input type="text" name="recipient" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Transfer</button>
+    </form>
+
+    <h1>Transactions List</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Status</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction, sender_username, recipient_username in context.transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ sender_username }}</td>
+                <td>{{ recipient_username }}</td>
+                <td>{{ transaction.status }}</td>
+                <td>{{ transaction.amount }} LP</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

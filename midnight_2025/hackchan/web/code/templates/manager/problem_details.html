@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<a href="/?action=resolve-problem&id={{ context.problem.id }}" class="btn btn-success">Resolve problem</a>
+<div class="container mt-5">
+    <h3>Problem Description</h3>
+    <p>{{ context.problem.message }}</p>
+    <h3>Order Details</h3>
+    <p>Order ID: {{ context.order.id }}</p>
+    <p>User address: {{ context.order.address }}</p>
+    <p>User phone: {{ context.order.phone }}</p>
+    <p>User email: {{ context.order.email }}</p>
+    <p>Total Price: ${{ context.order.total_price }}</p>
+    <h3>Order Items</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in context.order_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price * item.quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    build: ./web
+    command: /bin/bash startup.sh
+    ports:
+      - "8000:8000"
+    restart: always
+    stop_grace_period: 0s
+    depends_on:
+      - postgres
+  
+  admin-user:
+    build: ./admin-user
+    restart: always
+    stop_grace_period: 0s
+    init: true
+    depends_on:
+      - web
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: hackchan
+      POSTGRES_USER: hackchan
+      POSTGRES_PASSWORD: hackchan
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    stop_grace_period: 0s

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="container mt-5">
+    <h1>Your Shopping Cart</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in context.products_in_cart %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price * item.quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <form action="/?action=checkout" method="post">
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" class="form-control" value="{{ session.get('address', '') }}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" class="form-control" value="{{ session.get('phone', '') }}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ session.get('email', '') }}"
+                   required>
+        </div>
+        <button type="submit" class="btn btn-primary">Checkout</button>
+        <a href="/?action=clear-cart" class="btn btn-danger">Clear cart</a>
+    </form>
+</div>
+</body>
+</html>

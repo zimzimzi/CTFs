@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Problems List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container mt-5">
+        <h1>Order Problems List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Problem ID</th>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for problem in context.problems %}
+                    <tr>
+                        <td>{{ problem.id }}</td>
+                        <td>{{ problem.order_id }}</td>
+                        <td>{{ problem.user_id }}</td>
+                        <td>
+                            <a href="/?action=view-problem&id={{ problem.id }}" class="btn btn-primary">View Problem</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

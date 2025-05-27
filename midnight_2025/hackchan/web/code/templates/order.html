@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-6">The order has been successfully created</h1>
+        <p class="lead">A manager will contact you shortly to confirm delivery date and time</p>
+        <hr class="my-4">
+        <p class="lead font-italic">Points will be credited to your account after you pay the courier</p>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h1>Order Details</h1>
+    <p>Order ID: {{ context.order.id }}</p>
+    <p>Total Price: ${{ context.order.total_price }}</p>
+    <h2>Order Items</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in context.order_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price * item.quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="/?action=order-problem&uuid={{ context.order.uuid }}" class="btn btn-danger">Order problem</a>
+</div>
+</body>
+</html>
